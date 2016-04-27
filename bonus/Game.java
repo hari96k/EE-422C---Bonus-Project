@@ -21,7 +21,7 @@ class Game {
     Game() {
         //gameState = true;
         numberOfGuesses = 0;
-        guesses = new ArrayList<>();
+        guesses = new ArrayList<String>();
         displayIntro();
         s = new Scanner(System.in);
     }
@@ -36,6 +36,14 @@ class Game {
                     "Guess: ");
             String guess = s.next();
             guesses.add(guess);
+            if (guess.equals("update")){
+            	//remove the last element added to guesses
+            	guesses.remove(guesses.indexOf("update"));
+            	//print out elements in guesses
+            	for (int i = 0; i<guesses.size(); i++){
+            		System.out.println(guesses.get(i));
+            	}
+            }
             System.out.println("");
 
             if (game.validGuess(guess)) {
@@ -43,8 +51,13 @@ class Game {
                 System.out.print(game.getcode());
                 String output = game.checkGuess(guess);
                 System.out.print(output);
+                if (output.equals("-> Result: 4 black pegs!! You win !!")){
+                	numberOfGuesses = 13;
+                }
             } else {
-                System.out.println("Invalid Guess. Please try again: ");
+            	if (!guess.equals("update")){
+                    System.out.println("Invalid Guess. Please try again: ");
+            	}
             }
         }
     }

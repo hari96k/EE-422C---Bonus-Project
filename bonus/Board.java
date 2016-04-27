@@ -48,22 +48,27 @@ class Board {
     String checkGuess(String input){
 		int black = 0;
 		int white = 0;
-		//String output = "";
 		String []array = input.split("");
+		
+	    boolean[] blackPeg = new boolean[code.length];
+	    boolean[] whitePeg = new boolean[array.length];
 
 		for (int i = 0; i<4;i++){
 			if (array[i].equals(code[i])){
 				black = black + 1;
-			}
-			else{
-				for (int m = 0; m < 4; m++){
-					if (array[i].equals(code[m])){
-						white = white + 1;
-						break;
-					}
-				}
+				blackPeg[i] = whitePeg[i] = true;
 			}
 		}
+
+	    for (int m = 0; m < 4; m++) {
+	        for (int n = 0; n < 4; n++) {
+	            if (!blackPeg[m] && !whitePeg[n] && code[m].equals(array[n])) {
+	                white++;
+	                blackPeg[m] = whitePeg[n] = true;
+	                break;
+	            }
+	        }
+	    }
 
 		return formatOutput(black,white);
 	}
@@ -76,7 +81,7 @@ class Board {
 		else if (black > 0 && white == 0){
 			if (black == 4){
 				winFlag = true;
-				return "-> Result: 4 black pegs � You win !!";
+				return "-> Result: 4 black pegs!! You win !!";
 			}
 			else{
 				return "-> Result: " + black + " black peg";
