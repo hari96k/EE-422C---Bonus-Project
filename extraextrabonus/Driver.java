@@ -8,8 +8,11 @@ package bonus;
 public class Driver {
 
     public static void main(String[] args) {
+        Game masterMind;
 
-        Game masterMind = new Game();
-        masterMind.runGame();
+        do {
+            masterMind = new Game();
+        }
+        while (masterMind.runGame());
     }
 }

@@ -112,7 +112,7 @@ class Board {
         } else if (black > 0 && white == 0) {
             if (black == numPegs) {
                 winFlag = true;
-                return "-> Result:" + numPegs + " black pegs!! You win !!";
+                return "-> Result: " + numPegs + " black pegs!! You win !!";
             } else {
                 return "-> Result: " + black + (black <= 1 ? " black peg" : " black pegs");
             }

@@ -25,7 +25,7 @@ class Game {
         s = new Scanner(System.in);
     }
 
-    void runGame() {
+    boolean runGame() {
         promptToStart();
         Board game = new Board(promptNumPegs(), promptNumColors());
         maxGuesses = promptNumGuesses();
@@ -67,6 +67,8 @@ class Game {
 
         if (!game.getWinFlag())
             System.out.println("\n\nSorry! You did not win, The secret code was: " + game.getCode());
+
+        return promptToPlayAgain();
     }
 
     private void displayIntro() {
@@ -96,6 +98,7 @@ class Game {
                 validSelection = true;
             else if (selection == 'N' || selection == 'n') {
                 System.out.println("Thank you for playing!");
+                s.close();
                 System.exit(0);
             } else {
                 System.out.println("Invalid input, please enter a Y or N");
@@ -146,4 +149,20 @@ class Game {
 
     }
 
+
+    private boolean promptToPlayAgain() {
+        System.out.print("Would you like to play again? (Y/N): ");
+        while (true) {
+            char selection = s.next().charAt(0);
+            if (selection == 'Y' || selection == 'y')
+                return true;
+            else if (selection == 'N' || selection == 'n') {
+                System.out.println("Thank you for playing!");
+                s.close();
+                return false;
+            } else {
+                System.out.println("Invalid input, please enter a Y or N");
+            }
+        }
+    }
 }
