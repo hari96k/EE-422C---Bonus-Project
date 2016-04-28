@@ -21,7 +21,7 @@ class Board {
     private String[]createCode(){
 		String[]code = new String[4];
 		Random r = new Random();
-		int number = 0;
+		int number;
 		for (int i = 0; i<4;i++){
 			number = r.nextInt(5);
 			code[i] = colors[number];
@@ -31,7 +31,6 @@ class Board {
 
 	//checks whether the input guess is valid
     boolean validGuess(String input){
-		boolean flag = true;
 		char[]array = input.toCharArray();
 		if(array.length !=4){
 			return false;
@@ -84,24 +83,28 @@ class Board {
 				return "-> Result: 4 black pegs!! You win !!";
 			}
 			else{
-				return "-> Result: " + black + " black peg";
+				return "-> Result: " + black + (black <=1?" black peg": " black pegs");
 			}
 
 		}
 		else if (white > 0 && black == 0){
-			return "-> Result: " + white + " white peg";
+			return "-> Result: " + white + (white <= 1?" white peg": " white pegs");
 		}
 		else{
-			return "-> Result: " + black + " black peg and " + white + " white peg";
+			return "-> Result: " + black + (black <= 1? " black peg and ": " black pegs and ") + white + (white <= 1?" white peg": " white pegs");
 		}
 	}
 
 	//takes the random code and makes it into a string
-    String getcode(){
+    String getCode(){
 		String codeString = "";
 		for (int i = 0; i < 4; i++){
 			codeString = codeString + code[i];
 		}
 		return codeString;
+	}
+
+	boolean getWinFlag(){
+		return winFlag;
 	}
 }

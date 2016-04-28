@@ -11,5 +11,4 @@ public class Driver {
 		Game masterMind = new Game();
 		masterMind.runGame();
 	}
-
 }

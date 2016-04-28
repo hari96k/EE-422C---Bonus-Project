@@ -5,9 +5,6 @@
 
 package bonus;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,12 +13,13 @@ class Game {
     //private boolean gameState = false;
     private int numberOfGuesses;
     private ArrayList<String> guesses;
-    Scanner s;
+    private ArrayList<String> results;
+    private Scanner s;
 
     Game() {
-        //gameState = true;
         numberOfGuesses = 0;
-        guesses = new ArrayList<String>();
+        guesses = new ArrayList<>();
+        results = new ArrayList<>();
         displayIntro();
         s = new Scanner(System.in);
     }
@@ -30,36 +28,37 @@ class Game {
         promptToStart();
         System.out.print("\nGenerating secret code...");
         Board game = new Board();
-        while (numberOfGuesses <= 12) {
-            System.out.println("\n\nYou have " + (12 - numberOfGuesses) + " guesses left");
+        while (numberOfGuesses < 12) {
+            System.out.println("\n\nYou have " + (12 - numberOfGuesses) + (numberOfGuesses == 11?" guess left": " guesses left"));
             System.out.print("What is your next guess?\nType in the characters for your guess and press enter.\nEnter " +
                     "Guess: ");
             String guess = s.next();
-            guesses.add(guess);
-            if (guess.equals("update")){
-            	//remove the last element added to guesses
-            	guesses.remove(guesses.indexOf("update"));
-            	//print out elements in guesses
-            	for (int i = 0; i<guesses.size(); i++){
-            		System.out.println(guesses.get(i));
-            	}
-            }
+
             System.out.println("");
 
             if (game.validGuess(guess)) {
-                numberOfGuesses++;
-                System.out.print(game.getcode());
                 String output = game.checkGuess(guess);
+                guesses.add(guess);
+                results.add(output);
+                numberOfGuesses++;
+                System.out.print(guesses.get(numberOfGuesses-1));
+
                 System.out.print(output);
-                if (output.equals("-> Result: 4 black pegs!! You win !!")){
-                	numberOfGuesses = 13;
+                if (game.getWinFlag()){
+                	break;
                 }
             } else {
-            	if (!guess.equals("update")){
-                    System.out.println("Invalid Guess. Please try again: ");
-            	}
+                if (guess.toLowerCase().equals("history")) {
+                    //print out elements in guesses
+                    for (int i = 0; i < guesses.size(); i++)
+                        System.out.println( (i+1) + ") " + guesses.get(i) + results.get(i));
+
+                } else
+                    System.out.println("Invalid Guess. Please try again!");
             }
         }
+
+        System.out.println("\n\nSorry! You did not win, The secret code was: " + game.getCode());
     }
 
     private void displayIntro() {
